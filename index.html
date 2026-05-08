@@ -403,25 +403,24 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
         <div class="sec-sub">✦ Juega · Desbloquea · Recuerda ✦</div>
         <div class="game-card">
           <div class="gc-hdr"><div class="gc-ico">🪢</div><div><div class="gc-name">El Ahorcado</div><div class="gc-desc">Uno pone la palabra, el otro adivina</div></div></div>
-          <div class="task-row"><div class="task-chk" id="chk-hm-0"></div><div class="task-tx">Adivina 3 palabras en cualquier modo 💌</div><div class="task-rw">+6 📸</div></div>
-          <div class="task-row"><div class="task-chk" id="chk-hm-1"></div><div class="task-tx">Adivina 3 frases en modo Difícil 🌹</div><div class="task-rw">+6 📸</div></div>
+          <div class="task-row"><div class="task-chk" id="chk-hm-0"></div><div class="task-tx">Adivina 3 palabras en cualquier modo 💌</div><div class="task-rw">+5 📸</div></div>
+          <div class="task-row"><div class="task-chk" id="chk-hm-1"></div><div class="task-tx">Adivina 3 frases en modo Difícil 🌹</div><div class="task-rw">+5 📸</div></div>
           <button class="btn-play" onclick="openGame('hangman')">💕 Jugar Ahorcado</button>
         </div>
         <div class="game-card">
           <div class="gc-hdr"><div class="gc-ico">🧩</div><div><div class="gc-name">Block Blast</div><div class="gc-desc">Arrastra piezas al tablero · ¡Explota líneas!</div></div></div>
-          <div class="task-row"><div class="task-chk" id="chk-bb-0"></div><div class="task-tx">Alcanza 500 puntos 🧩</div><div class="task-rw">+6 📸</div></div>
-          <div class="task-row"><div class="task-chk" id="chk-bb-1"></div><div class="task-tx">Alcanza 2000 puntos ✨</div><div class="task-rw">+6 📸</div></div>
+          <div class="task-row"><div class="task-chk" id="chk-bb-0"></div><div class="task-tx">Alcanza 500 puntos 🧩</div><div class="task-rw">+5 📸</div></div>
+          <div class="task-row"><div class="task-chk" id="chk-bb-1"></div><div class="task-tx">Alcanza 2000 puntos ✨</div><div class="task-rw">+5 📸</div></div>
           <button class="btn-play" onclick="openGame('block')">💕 Jugar Block Blast</button>
         </div>
         <div class="game-card">
           <div class="gc-hdr"><div class="gc-ico">🧟</div><div><div class="gc-name">Escape Juntos</div><div class="gc-desc">Co-op top-down · Zombies · Checkpoints · ¡Helicóptero!</div></div></div>
-          <div class="task-row"><div class="task-chk" id="chk-zb-0"></div><div class="task-tx">Llegar al primer checkpoint 🗺️</div><div class="task-rw">+6 📸</div></div>
-          <div class="task-row"><div class="task-chk" id="chk-zb-1"></div><div class="task-tx">¡Escapar en el helicóptero juntos! 🚁</div><div class="task-rw">+6 📸</div></div>
+          <div class="task-row"><div class="task-chk" id="chk-zb-0"></div><div class="task-tx">Llegar al primer checkpoint 🗺️</div><div class="task-rw">+5 📸</div></div>
+          <div class="task-row"><div class="task-chk" id="chk-zb-1"></div><div class="task-tx">¡Escapar en el helicóptero juntos! 🚁</div><div class="task-rw">+5 📸</div></div>
           <button class="btn-play" onclick="openGame('zombie')">💕 Jugar Escape Juntos</button>
         </div>
       </div>
     </div>
-  </div>
     <!-- DIARY -->
     <div class="panel" id="panel-diary" style="display:flex;flex-direction:column;">
       <div id="diaryFeed" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px 10px;display:flex;flex-direction:column;gap:0;">
@@ -440,14 +439,14 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
         <div id="scoresContent"></div>
       </div>
     </div>
-  </div>
+  </div><!-- end .panels -->
   <div class="bottom-tabs">
     <button class="btab active" onclick="switchTab(this,'album')"><span class="btab-ico">📸</span><span class="btab-lbl">Álbum</span><span class="btab-dot"></span></button>
     <button class="btab" onclick="switchTab(this,'games')"><span class="btab-ico">🎮</span><span class="btab-lbl">Juegos</span><span class="btab-dot"></span></button>
     <button class="btab" onclick="switchTab(this,'diary')"><span class="btab-ico">💌</span><span class="btab-lbl">Diario</span><span class="btab-dot"></span></button>
     <button class="btab" onclick="switchTab(this,'scores')"><span class="btab-ico">⭐</span><span class="btab-lbl">Logros</span><span class="btab-dot"></span></button>
   </div>
-</div>
+</div><!-- end #mainScreen -->
 
 <div id="gameOverlay">
   <div class="go-bar" id="goBar"><button class="go-back" onclick="closeGame()">←</button><div class="go-title" id="goTitle"></div><div class="go-extra" id="goExtra"></div></div>
@@ -475,6 +474,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 //  STORAGE & STATE
 // ════════════════════════════════════════════════════
 const SK='aa_v8';
+// ══════════════════════════════════════
+// PEGA AQUÍ LA URL DE TU GOOGLE APPS SCRIPT
+// (después de desplegar el Code.gs como web app)
+const GS_URL=''; // <-- pega aquí tu URL exec
+// ══════════════════════════════════════
 let S={
   ug:0,photos:[],checks:[],
   tasks:{hm:[false,false],bb:[false,false],zb:[false,false]},
@@ -496,7 +500,7 @@ function switchTab(btn,id){
 }
 
 // ── DIARY ──
-const GS_URL=''; // Pega aquí tu URL de Google Apps Script web app
+const GS_URL='https://script.google.com/macros/s/AKfycbymLf7bz_0uRpyyeyTTXLh3Yb35PemoPMbe7oqvn1ddTnLOgDF9_Kb1nsYEwkNRLyBETA/exec'; // Pega aquí tu URL de Google Apps Script web app
 function diaryGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px';}
 function diarySend(){
   const inp=$('diaryInput');
