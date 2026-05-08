@@ -475,9 +475,9 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 // ════════════════════════════════════════════════════
 const SK='aa_v8';
 // ══════════════════════════════════════
-// PEGA AQUÍ LA URL DE TU GOOGLE APPS SCRIPT
+// 🔴 PEGA AQUÍ LA URL DE TU GOOGLE APPS SCRIPT
 // (después de desplegar el Code.gs como web app)
-const GS_URL=''; // <-- pega aquí tu URL exec
+let GS_URL='https://script.google.com/macros/s/AKfycbymLf7bz_0uRpyyeyTTXLh3Yb35PemoPMbe7oqvn1ddTnLOgDF9_Kb1nsYEwkNRLyBETA/exec'; // <-- pega aquí tu URL exec
 // ══════════════════════════════════════
 let S={
   ug:0,photos:[],checks:[],
@@ -500,7 +500,6 @@ function switchTab(btn,id){
 }
 
 // ── DIARY ──
-const GS_URL='https://script.google.com/macros/s/AKfycbymLf7bz_0uRpyyeyTTXLh3Yb35PemoPMbe7oqvn1ddTnLOgDF9_Kb1nsYEwkNRLyBETA/exec'; // Pega aquí tu URL de Google Apps Script web app
 function diaryGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px';}
 function diarySend(){
   const inp=$('diaryInput');
