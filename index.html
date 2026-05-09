@@ -225,12 +225,18 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 /* ── DIARY PANEL ── */
 .diary-wrap{padding:13px 12px 80px;max-width:540px;margin:0 auto;}
-.diary-msg-out{background:rgba(200,115,138,.1);border:1px solid rgba(200,115,138,.18);border-radius:16px 16px 4px 16px;padding:10px 13px;margin-bottom:10px;align-self:flex-end;max-width:85%;}
-.diary-msg-in{background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.18);border-radius:16px 16px 16px 4px;padding:10px 13px;margin-bottom:10px;align-self:flex-start;max-width:85%;}
-.diary-msg-name{font-family:'Cormorant Garamond',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
-.diary-msg-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text);line-height:1.55;}
-.diary-msg-time{font-size:9px;color:var(--text-l);margin-top:4px;text-align:right;}
-.diary-empty{text-align:center;padding:40px 20px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-l);font-size:15px;}
+.diary-msg-out{display:flex;align-items:flex-end;gap:7px;margin-bottom:12px;justify-content:flex-end;}
+.diary-msg-in{display:flex;align-items:flex-end;gap:7px;margin-bottom:12px;justify-content:flex-start;}
+.diary-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:13px;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+.diary-bubble{max-width:76%;position:relative;}
+.diary-msg-out .diary-bubble{background:linear-gradient(135deg,rgba(200,115,138,.18),rgba(160,80,106,.12));border:1px solid rgba(200,115,138,.25);border-radius:18px 18px 4px 18px;padding:10px 14px 8px;}
+.diary-msg-in .diary-bubble{background:rgba(255,255,255,.82);backdrop-filter:blur(8px);border:1px solid rgba(201,169,110,.2);border-radius:18px 18px 18px 4px;padding:10px 14px 8px;box-shadow:0 2px 10px rgba(160,80,106,.08);}
+.diary-msg-name{font-family:'Cormorant Garamond',serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.diary-msg-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--text);line-height:1.6;}
+.diary-msg-time{font-size:9px;color:var(--text-l);margin-top:5px;text-align:right;}
+.diary-date-sep{text-align:center;margin:10px 0 6px;font-family:'Cormorant Garamond',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-l);}
+.diary-date-sep::before,.diary-date-sep::after{content:'✦';margin:0 8px;color:var(--gold);opacity:.5;}
+.diary-empty{text-align:center;padding:40px 20px;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-l);font-size:15px;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .diary-bar{flex-shrink:0;background:rgba(255,255,255,.93);backdrop-filter:blur(20px);border-top:1px solid rgba(201,169,110,.18);padding:10px 12px;padding-bottom:max(10px,env(safe-area-inset-bottom,10px));display:flex;gap:8px;align-items:flex-end;}
 .diary-input{flex:1;resize:none;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text);background:rgba(249,238,242,.55);border:1.5px solid rgba(200,115,138,.2);border-radius:20px;padding:10px 13px;outline:none;line-height:1.4;max-height:88px;overflow-y:auto;transition:border-color .3s;-webkit-appearance:none;font-size:max(16px,1em);}
 .diary-input:focus{border-color:rgba(200,115,138,.5);}
@@ -243,9 +249,21 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .score-stat{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--text-m);margin-top:4px;}
 .score-val{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--gold);}
 /* ── ALBUM CHECKBOXES ── */
-.photo-chk-wrap{position:absolute;bottom:4px;left:0;right:0;display:flex;justify-content:center;gap:3px;padding:0 3px;}
-.photo-chk{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);background:rgba(0,0,0,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:8px;flex-shrink:0;transition:all .2s;-webkit-tap-highlight-color:transparent;}
-.photo-chk.checked{background:var(--rose);border-color:var(--rose);}
+.photo-chk-wrap{position:absolute;bottom:5px;left:0;right:0;display:flex;justify-content:center;gap:4px;padding:0 4px;}
+.photo-chk{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.85);background:rgba(20,8,14,.45);backdrop-filter:blur(4px);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;transition:all .25s cubic-bezier(.34,1.56,.64,1);-webkit-tap-highlight-color:transparent;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.photo-chk:active{transform:scale(.85);}
+.photo-chk.checked{background:var(--rose);border-color:#fff;box-shadow:0 0 0 2px rgba(200,115,138,.4),0 2px 6px rgba(160,80,106,.5);}
+.photo-chk.checked::after{content:'♥';font-size:9px;color:#fff;line-height:1;}
+/* ── GOLD FRAME SLOT (foto 31 especial) ── */
+.slot-gold-frame{position:relative;border-radius:11px;overflow:hidden;aspect-ratio:1;cursor:pointer;box-shadow:0 0 0 2.5px var(--gold),0 0 0 5px rgba(201,169,110,.18),0 4px 20px rgba(160,80,106,.25);transition:transform .25s,box-shadow .25s;}
+.slot-gold-frame:active{transform:scale(.96);}
+.slot-gold-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+.slot-gold-frame::before{content:'';position:absolute;inset:0;border-radius:11px;border:2.5px solid var(--gold);z-index:2;pointer-events:none;}
+.slot-gold-frame::after{content:'✦';position:absolute;bottom:5px;right:7px;font-size:12px;color:var(--gold);z-index:3;pointer-events:none;text-shadow:0 1px 3px rgba(0,0,0,.5);}
+.slot-gold-placeholder{aspect-ratio:1;border-radius:11px;background:linear-gradient(145deg,rgba(201,169,110,.12),rgba(200,115,138,.07));border:2px solid rgba(201,169,110,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:all .25s;box-shadow:0 0 0 1px rgba(201,169,110,.2);}
+.slot-gold-placeholder:active{transform:scale(.96);}
+.slot-gold-placeholder .gp-ico{font-size:26px;}
+.slot-gold-placeholder .gp-txt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:9px;letter-spacing:1.5px;color:var(--gold);text-align:center;line-height:1.4;}
 /* ── RIDDLE POPUP ── */
 #riddlePopup{position:fixed;inset:0;background:rgba(15,8,12,.75);display:flex;align-items:center;justify-content:center;z-index:700;opacity:0;pointer-events:none;transition:opacity .4s;padding:20px;}
 #riddlePopup.open{opacity:1;pointer-events:all;}
@@ -384,6 +402,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
           <div class="prog-ct" id="progCt">0 / 30 fotos desbloqueadas</div>
         </div>
         <div id="albumGroups"></div>
+        <!-- FOTO ESPECIAL EN MARCO DE ORO -->
+        <div style="margin-top:10px;margin-bottom:4px;">
+          <div class="grp-hdr"><div class="grp-line"></div><div class="grp-name" style="color:var(--gold);font-size:11px;letter-spacing:4px;">✦ Para Siempre ✦</div><div class="grp-line"></div></div>
+          <div id="goldFrameSlot"></div>
+        </div>
       </div>
       <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="onPhotoFile(event)">
     </div>
@@ -414,11 +437,14 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     </div>
     <!-- DIARY -->
     <div class="panel" id="panel-diary" style="display:flex;flex-direction:column;">
-      <div id="diaryFeed" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 12px 10px;display:flex;flex-direction:column;gap:0;">
-        <div class="diary-empty" id="diaryEmpty">Aún no hay mensajes...<br>¡Escribe algo desde el corazón! 🌸</div>
+      <div id="diaryFeed" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 14px 10px;display:flex;flex-direction:column;gap:0;">
+        <div class="diary-empty" id="diaryEmpty">
+          <span style="font-size:40px;opacity:.4;">💌</span>
+          Aún no hay mensajes...<br>¡Escribe algo desde el corazón! 🌸
+        </div>
       </div>
       <div class="diary-bar">
-        <textarea class="diary-input" id="diaryInput" placeholder="Escribe algo..." rows="1" oninput="diaryGrow(this)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();diarySend()}"></textarea>
+        <textarea class="diary-input" id="diaryInput" placeholder="Escribe algo desde el corazón... 💕" rows="1" oninput="diaryGrow(this)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();diarySend()}"></textarea>
         <button class="diary-send" id="diarySendBtn" onclick="diarySend()">💕</button>
       </div>
     </div>
@@ -464,7 +490,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 // ════════════════════════════════════════════════════
 //  CONFIGURACIÓN — PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
 // ════════════════════════════════════════════════════
-const GS_URL = 'https://script.google.com/macros/s/AKfycbyMJGFbmVGEQqRaZ0pO6zERge7on6lWlW31zUM0Y_z2af9yZy-_p-hSEYd7T_dNJAfZLw/exec';
+const GS_URL = 'https://script.google.com/macros/s/AKfycbxRWLr0e7DEP82oKttFEmKameCJxhglpn6XV0SUXEyvqRDiBGf7G53owGNp_gZi-D1wrA/exec';
 // Ejemplo: 'https://script.google.com/macros/s/AKfycby.../exec'
 
 // ════════════════════════════════════════════════════
@@ -487,7 +513,7 @@ function switchTab(btn,id){
   document.querySelectorAll('#mainScreen .panel').forEach(function(p){p.classList.remove('active');});
   btn.classList.add('active');
   $('panel-'+id).classList.add('active');
-  if(id==='diary')renderDiary();
+  if(id==='diary'){diaryMessages=S.diary.slice();renderDiary();loadDiaryFromServer();}
   if(id==='scores')renderScores();
 }
 
@@ -526,7 +552,25 @@ function gsGet(params, onSuccess, onError) {
 }
 
 // ── DIARY ──
+var diaryMessages=[];
+var diaryRefreshTimer=null;
+
 function diaryGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px';}
+
+function loadDiaryFromServer(){
+  gsGet({action:'getMsgs'},function(res){
+    if(res&&res.success&&Array.isArray(res.messages)&&res.messages.length){
+      var ids={};S.diary.forEach(function(m){ids[m.id]=true;});
+      var merged=S.diary.slice();
+      res.messages.forEach(function(m){if(!ids[m.id])merged.push(m);});
+      merged.sort(function(a,b){return String(a.id||'').localeCompare(String(b.id||''));});
+      diaryMessages=merged;S.diary=merged;save();
+    } else {
+      diaryMessages=S.diary.slice();
+    }
+    renderDiary();
+  });
+}
 
 function diarySend(){
   var inp=$('diaryInput');
@@ -540,33 +584,53 @@ function diarySend(){
     text:txt,
     time:new Date().toLocaleString('es',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
   };
-  // Save locally first (always works)
-  S.diary.push(msg);save();renderDiary();
-  // Then try to sync to Google Sheets (optional, non-blocking)
-  gsPost({action:'saveMsg',name:msg.name,text:msg.text,time:msg.time}, function(){
-    btn.textContent='💕';
+  S.diary.push(msg);
+  diaryMessages=S.diary.slice();
+  save();renderDiary();
+  gsPost({action:'saveMsg',name:msg.name,text:msg.text,time:msg.time,id:msg.id},function(){
+    btn.textContent='💕';miniHearts();
   });
 }
 
 function renderDiary(){
   var feed=$('diaryFeed');if(!feed)return;
   var emp=$('diaryEmpty');
-  var msgs=feed.querySelectorAll('.diary-msg-out,.diary-msg-in');
-  msgs.forEach(function(m){m.remove();});
-  if(!S.diary||!S.diary.length){if(emp)emp.style.display='block';return;}
+  feed.querySelectorAll('.diary-msg-out,.diary-msg-in,.diary-date-sep').forEach(function(m){m.remove();});
+  var msgs=diaryMessages.length?diaryMessages:S.diary;
+  if(!msgs||!msgs.length){if(emp)emp.style.display='flex';return;}
   if(emp)emp.style.display='none';
-  S.diary.forEach(function(m){
+  var lastDate='';
+  msgs.forEach(function(m){
+    var tp=String(m.time||'');
+    var datePart=tp.split(',')[0]||tp.split(' ')[0]||'';
+    if(datePart&&datePart!==lastDate){
+      lastDate=datePart;
+      var sep=document.createElement('div');sep.className='diary-date-sep';
+      sep.textContent=datePart;feed.appendChild(sep);
+    }
     var mine=m.name===S.playerName;
+    var initial=(m.name||'?')[0].toUpperCase();
+    var acol=mine?'var(--rose)':'var(--gold)';
     var div=document.createElement('div');
     div.className=mine?'diary-msg-out':'diary-msg-in';
-    div.innerHTML='<div class="diary-msg-name">'+m.name+'</div>'
+    div.innerHTML=(mine?'':('<div class="diary-avatar" style="background:'+acol+';">'+escHtml(initial)+'</div>'))
+      +'<div class="diary-bubble">'
+      +(mine?'':'<div class="diary-msg-name">'+escHtml(m.name)+'</div>')
       +'<div class="diary-msg-text">'+escHtml(m.text)+'</div>'
-      +'<div class="diary-msg-time">'+m.time+'</div>';
+      +'<div class="diary-msg-time">'+escHtml(tp)+'</div>'
+      +'</div>'
+      +(mine?('<div class="diary-avatar" style="background:'+acol+';">'+escHtml(initial)+'</div>'):'');
     feed.appendChild(div);
   });
   feed.scrollTop=feed.scrollHeight;
+  // Auto-refresh every 30s while diary is active
+  clearTimeout(diaryRefreshTimer);
+  diaryRefreshTimer=setTimeout(function(){
+    var panel=$('panel-diary');
+    if(panel&&panel.classList.contains('active'))loadDiaryFromServer();
+  },30000);
 }
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
 
 // ── SCORES ──
 function renderScores(){
@@ -731,15 +795,34 @@ function wpSubmit(){
 // ════════════════════════════════════════════════════
 //  ALBUM
 // ════════════════════════════════════════════════════
-var GRP=[
-  {name:'Primer Capítulo',game:'El Ahorcado',task:'hm0',emoji:['🌹','💕','🌙','🦋','✨'],imgs:['','','','',''],chks:[1,1,1,1,4]},
-  {name:'Momentos Dulces',game:'El Ahorcado',task:'hm1',emoji:['🍓','🌸','☁️','🎀','🌻'],imgs:['','','','',''],chks:[1,1,1,1,1]},
-  {name:'Nuestras Aventuras',game:'Block Blast',task:'bb0',emoji:['🗺️','🌊','🏔️','🎠','🌅'],imgs:['','','','',''],chks:[1,1,2,1,1]},
-  {name:'En Nuestro Mundo',game:'Block Blast',task:'bb1',emoji:['🏠','🌃','🎶','📖','🕯️'],imgs:['','','','',''],chks:[1,1,1,1,1]},
-  {name:'Nuestro Escape',game:'Escape Juntos',task:'zb0',emoji:['💒','🥂','🌠','🫶','👑'],imgs:['','','','',''],chks:[1,1,1,1,1]},
-  {name:'Para Siempre',game:'Escape Juntos',task:'zb1',emoji:['🎊','🌟','💝','🔮','✨'],imgs:['','','','',''],chks:[1,1,1,1,4]}
+// ── Pega aquí las URLs de tus 30 fotos (dejar '' si no tienes aún) ──
+var PHOTO_URLS=[
+  // Grupo 1 — Primer Capítulo (5 fotos)
+  '','','','','',
+  // Grupo 2 — Momentos Dulces (5 fotos)
+  '','','','','',
+  // Grupo 3 — Nuestras Aventuras (5 fotos)
+  '','','','','',
+  // Grupo 4 — En Nuestro Mundo (5 fotos)
+  '','','','','',
+  // Grupo 5 — Nuestro Escape (5 fotos)
+  '','','','','',
+  // Grupo 6 — Para Siempre (5 fotos)
+  '','','','',''
 ];
-var uploadTarget={g:0,i:0};
+// Foto especial en marco de oro — pega URL aquí o sube desde teléfono:
+var GOLD_PHOTO_URL='';
+
+var GRP=[
+  {name:'Primer Capítulo',game:'El Ahorcado',task:'hm0',emoji:['🌹','💕','🌙','🦋','✨'],chks:[1,1,1,1,4]},
+  {name:'Momentos Dulces',game:'El Ahorcado',task:'hm1',emoji:['🍓','🌸','☁️','🎀','🌻'],chks:[1,1,1,1,1]},
+  {name:'Nuestras Aventuras',game:'Block Blast',task:'bb0',emoji:['🗺️','🌊','🏔️','🎠','🌅'],chks:[1,1,2,1,1]},
+  {name:'En Nuestro Mundo',game:'Block Blast',task:'bb1',emoji:['🏠','🌃','🎶','📖','🕯️'],chks:[1,1,1,1,1]},
+  {name:'Nuestro Escape',game:'Escape Juntos',task:'zb0',emoji:['💒','🥂','🌠','🫶','👑'],chks:[1,1,1,1,1]},
+  {name:'Para Siempre',game:'Escape Juntos',task:'zb1',emoji:['🎊','🌟','💝','🔮','✨'],chks:[1,1,1,1,4]}
+];
+var uploadTarget={g:0,i:0,gold:false};
+
 function renderAlbum(){
   var total=S.ug*5;
   $('progFill').style.width=(total/30*100)+'%';
@@ -754,27 +837,27 @@ function renderAlbum(){
       var ph=(S.photos[gi]||[])[i];
       var ck=(S.checks[gi]||[])[i]||[];
       var numChks=g.chks[i]||1;
+      var urlImg=PHOTO_URLS[gi*5+i]||'';
       if(!unlocked){
         var l=document.createElement('div');l.className='slot-locked';
         l.innerHTML='<div class="slot-locked-ico">🔒</div><div class="slot-locked-txt">Juega<br>'+g.game+'</div>';
         grid.appendChild(l);
       } else {
         var s=document.createElement('div');s.className='photo-slot';s.style.position='relative';
-        var urlImg=g.imgs[i];var fileImg=ph;var imgSrc=urlImg||fileImg||'';
+        var imgSrc=urlImg||ph||'';
         if(imgSrc){
           s.innerHTML='<img src="'+imgSrc+'" alt="" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:11px;">';
           (function(src,gi2,i2){s.querySelector('img').onclick=function(){lbOpenUrl(src,gi2,i2);};})(imgSrc,gi,i);
         } else {
           var a=document.createElement('div');a.className='slot-emoji';a.textContent=g.emoji[i];
           a.style.cssText='border-radius:11px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:28px;background:linear-gradient(145deg,rgba(200,115,138,.08),rgba(201,169,110,.06));border:1px solid rgba(201,169,110,.15);cursor:pointer;';
-          (function(gi2,i2){a.onclick=function(){uploadTarget={g:gi2,i:i2};$('photoInput').click();};})(gi,i);
+          (function(gi2,i2){a.onclick=function(){uploadTarget={g:gi2,i:i2,gold:false};$('photoInput').click();};})(gi,i);
           s.appendChild(a);
         }
         var ckWrap=document.createElement('div');ckWrap.className='photo-chk-wrap';
         for(var k=0;k<numChks;k++){
           var cb=document.createElement('div');cb.className='photo-chk'+(ck[k]?' checked':'');
-          cb.innerHTML=ck[k]?'✓':'';
-          (function(gi2,i2,k2){cb.onclick=function(){toggleCheck(gi2,i2,k2);};})(gi,i,k);
+          (function(gi2,i2,k2){cb.onclick=function(ev){ev.stopPropagation();toggleCheck(gi2,i2,k2);};})(gi,i,k);
           ckWrap.appendChild(cb);
         }
         s.appendChild(ckWrap);grid.appendChild(s);
@@ -783,7 +866,26 @@ function renderAlbum(){
     sec.appendChild(grid);cont.appendChild(sec);
   });
   updateChks();
+  renderGoldFrame();
 }
+
+function renderGoldFrame(){
+  var slot=$('goldFrameSlot');if(!slot)return;
+  slot.innerHTML='';
+  var src=GOLD_PHOTO_URL||S.goldPhoto||'';
+  if(src){
+    var d=document.createElement('div');d.className='slot-gold-frame';
+    d.innerHTML='<img src="'+src+'" alt="Nuestra foto especial">';
+    d.onclick=function(){$('lbImg').src=src;$('lb').classList.add('open');};
+    slot.appendChild(d);
+  } else {
+    var ph2=document.createElement('div');ph2.className='slot-gold-placeholder';
+    ph2.innerHTML='<div class="gp-ico">🌹</div><div class="gp-txt">Foto especial<br>Toca para subir</div>';
+    ph2.onclick=function(){uploadTarget={g:-1,i:0,gold:true};$('photoInput').click();};
+    slot.appendChild(ph2);
+  }
+}
+
 function toggleCheck(gi,i,k){
   if(!S.checks[gi])S.checks[gi]=[];
   if(!S.checks[gi][i])S.checks[gi][i]=[];
@@ -791,7 +893,21 @@ function toggleCheck(gi,i,k){
   save();renderAlbum();
 }
 function lbOpenUrl(src,gi,i){$('lbImg').src=src;$('lb').classList.add('open');lbG=gi;lbI=i;}
-function onPhotoFile(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){if(!S.photos[uploadTarget.g])S.photos[uploadTarget.g]=[];S.photos[uploadTarget.g][uploadTarget.i]=ev.target.result;save();renderAlbum();toast('Foto guardada 🌸');};r.readAsDataURL(f);e.target.value='';}
+function onPhotoFile(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    var data=ev.target.result;
+    if(uploadTarget.gold){
+      S.goldPhoto=data;save();renderGoldFrame();toast('Foto especial guardada 💛');
+      gsPost({action:'saveGoldPhoto',name:S.playerName||'user',dataLen:data.length,time:new Date().toLocaleString('es')});
+    } else {
+      if(!S.photos[uploadTarget.g])S.photos[uploadTarget.g]=[];
+      S.photos[uploadTarget.g][uploadTarget.i]=data;save();renderAlbum();toast('Foto guardada 🌸');
+    }
+  };
+  r.readAsDataURL(f);e.target.value='';
+}
 function delPhoto(g,i){if(!S.photos[g])return;S.photos[g][i]=null;save();renderAlbum();}
 var lbG=0,lbI=0;
 function lbOpen(g,i){lbG=g;lbI=i;$('lbImg').src=(S.photos[g]||[])[i];$('lb').classList.add('open');}
@@ -1136,7 +1252,7 @@ function bbCanAny(){return bbPieces.filter(function(p){return !p.used;}).some(fu
 var ZTL=40;
 var ZMAP1_RAW=['############################################################','#..........................................................#','#...TTTT....................TTTTT...........TTTT............#','#...TTTT....C.....TT........TTTTT..................A........#','#..........................................................#','#..~~~~~~~~~~.............A........................A........#','#..~~~~~~~~~~..............TTT.............................#','#..________................................................#','#..........................................................#','#...TTT.........TTT........A...............................#','#..........................................................#','#...######.....A......##########...........................#','#...#....#............#........#...........A...............#','#...#.C..#............#........#.......##########..........#','#...#.W..#............#........#.......#........#..........#','#...######............##########.......#...C....#..........#','#.............A.......................#...W....#..........#','#..........................................................#','#..~~~~~~~~~~...TTTTT....######....TTTT....................#','#..~~~~~~~~~~...TTTTT....#....#....TTTT....................#','#..___________...........#.C..#.............................#','#........................#.W..#.......A.....TTT.............#','#....S...........................######....................#','#....S.................A...................................#','#..........................................................#','#...TT..........######........##########...................#','#...............#....#........#........#...................#','#...............#.C..#........#........#...................#','#...............######........##########...................#','#..........................................................#','#...TTTTT..............TTT.....A.......TTTT................#','#...TTTTT.....~~~~~~...............TTTT....................#','#.............~~~~~~............TTTT.......................#','#.............________..........H..........................#','#..........................................................#','############################################################'];
 var ZMAP2_RAW=['############################################################','#..........................................................#','#...TTTTT...A...........................................TTT.#','#..........TTT.....##########.....TTTTT...............A...#','#.................#........#.....TTTTT....................#','#.....A...........#........#..............................#','#.................#........#.....~~~~~~~~~~...............#','#.................##########.....~~~~~~~~~~......A........#','#...TTT.....................................______........#','#...~~~~~~~~~~.....................................................#','#...~~~~~~~~~~....TTTTT...........##########.................#','#...________......TTTTT...........#........#.................#','#.......................................#...C....#.........#','#.......................................#...W....#.........#','#.......................................##########.........#','#.............................................A...........#','#...######..........A....TTTTT...............................#','#...#....#...........TTTTT...................................#','#...#.C..#...........................................A.......#','#...#.W..#.....A...............................A............#','#...######...................................................#','#.....S......................................................#','#.....S......TTTTT.......##########...........TTT..........#','#...TTTTT....TTTTT.......#........#.................A......#','#...TTTTT................#........#.....~~~~~~~~~~.........#','#........................#........#.....~~~~~~~~~~.........#','#........................##########.....________..........#','#....A...................TTTTT.............................#','#...~~~~~~~~~~..........TTTTT.......H......................#','#...~~~~~~~~~~.....................................................#','#..._________....A.........................A................#','#...TT...........TTTTT..........###########.................#','#...TT............TTTTT.........#.........#.................#','#.......................................#.........#.........#','#.......................................###########.........#','#..........................................................#','#.......TTTTT.....A..........TTTTT...H......................#','#.......TTTTT..................................................#','############################################################'];
-var ZMAP3_RAW=['############################################################','#.S........................................................#','#.S.TTTTT...A...............................................#','#...TTTTT.........................TTT......................#','#...........................~~~~~~~~~~~~~~.................#','#............A..............~~~~~~~~~~~~~~................#','#...TTTTT..........................______..................#','#..~~~~~~~~~~........A....................................#','#..~~~~~~~~~~.............................................#','#..________....TTT.....................................A..#','#..........A..............................................#','#..........................................................#','#...TTTTT..................................................#','#...TTTTT...A.............................................#','#..........TTT...........A.......TTTTT....................#','#................................................TTTTT....#','#...######.....A.......########################..........#','#...#....#.............#.......................#..........#','#...#.C..#.............#.......rooms...........#..........#','#...#.W..#.............#.......................#..........#','#...######.............########################..........#','#...................A..............TTTTT..............A...#','#...~~~~~~~~~~....................................TTTTT...#','#...~~~~~~~~~~....................................A......#','#..._________....TTTTT...................................#','#............................................................TTTTT...#','#..................A...TTT.................A...............#','#...................TTTTT.................................#','#...######.......A.....................................##########','#...#....#.....................................#..........#','#...#.B..#.....................................#..........#','#...#....#.....................................#..........#','#...#.####.....................................##########','#..........................................................#','#.....####.############################...................#','#.....#..............................#.....................#','#.....#.........HELIPAD...............#.....................#','#.....#..............E...............#.....................#','#.....####.############################...................#','#..........................................................#','############################################################'];
+var ZMAP3_RAW=['############################################################','#.S........................................................#','#.S.TTTTT...A...............................................#','#...TTTTT.........................TTT......................#','#...........................~~~~~~~~~~~~~~.................#','#............A..............~~~~~~~~~~~~~~................#','#...TTTTT..........................______..................#','#..~~~~~~~~~~........A....................................#','#..~~~~~~~~~~.............................................#','#..________....TTT.....................................A..#','#..........A..............................................#','#..........................................................#','#...TTTTT..................................................#','#...TTTTT...A.......................................######.#','#..........TTT...........A.......TTTTT......#....B..#.....#','#................................................TTTTT....#','#...######.....A.......########################..........#','#...#....#.............#.......................#..........#','#...#.C..#.............#.......rooms...........#..........#','#...#.W..#.............#.......................#..........#','#...######.............########################..........#','#...................A..............TTTTT..............A...#','#...~~~~~~~~~~....................................TTTTT...#','#...~~~~~~~~~~....................................A......#','#..._________....TTTTT...................................#','#............................................................TTTTT...#','#..................A...TTT.................A...............#','#...................TTTTT.................................#','#...######.......A.....................................##########','#...#....#.....................................#..........#','#...#.B..#.....................................#..........#','#...#....#.....................................#..........#','#...#.####.....................................##########','#..........................................................#','#.....####.############################...................#','#.....#..............................#.....................#','#.....#.........HELIPAD...............#.....................#','#.....#..............E...............#.....................#','#.....####.############################...................#','#..........................................................#','############################################################'];
 var ALL_MAPS=[ZMAP1_RAW,ZMAP2_RAW,ZMAP3_RAW];
 var WEAPONS_DEF={pistol:{name:'Pistola',ico:'🔫',type:'ranged',dmg:55,rate:12,ammo:80,max:80,range:240,spread:.06,shots:1,bulSpd:13},shotgun:{name:'Escopeta',ico:'💥',type:'ranged',dmg:90,rate:24,ammo:24,max:24,range:140,spread:.38,shots:5,bulSpd:11},rifle:{name:'Rifle',ico:'🎯',type:'ranged',dmg:130,rate:5,ammo:70,max:70,range:400,spread:.02,shots:1,bulSpd:17},smg:{name:'Metra',ico:'⚡',type:'ranged',dmg:40,rate:3,ammo:120,max:120,range:200,spread:.13,shots:1,bulSpd:14},bat:{name:'Bate',ico:'🏏',type:'melee',dmg:140,rate:26,ammo:999,max:999,range:52,spread:0,shots:0,bulSpd:0},knife:{name:'Cuchillo',ico:'🔪',type:'melee',dmg:100,rate:14,ammo:999,max:999,range:44,spread:0,shots:0,bulSpd:0},grenade:{name:'Bomba',ico:'💣',type:'explosive',dmg:260,rate:90,ammo:4,max:4,range:180,spread:0,shots:0,bulSpd:7}};
 var RANGED_WPN=['pistol','shotgun','rifle','smg'];
@@ -1394,7 +1510,26 @@ function zUpdate(){
   });
   if(zG.players.every(function(p){return !p.alive;})&&!zG.gameOver){zG.gameOver=true;showZOver();}
   zG.particles=zG.particles.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.vx*=.86;p.vy*=.86;p.life--;return p.life>0;});
-  zG.pickups.forEach(function(pk){if(pk.taken)return;zG.players.forEach(function(p){if(!p.alive||Math.hypot(p.x-pk.x,p.y-pk.y)>30)return;pk.taken=true;if(pk.type==='medkit'){p.hp=Math.min(p.maxHp,p.hp+90);toast('💊 +90 HP',1500);}else if(pk.type==='ammo'){p.wpns.forEach(function(w){if(w.type==='ranged')w.ammo=Math.min(w.ammo+40,w.max||99);});toast('🔋 +40 Munición',1500);}else if(pk.type==='weapon'){var nw=mkWpn(pk.wid);p.wpns[0]=nw;toast('🔫 '+nw.name,2000);}else if(pk.type==='key'){p.hasKey=true;zShowKeyBanner('🗝️ '+(p.pid===0?'Aracellita':'Adriancito')+' tiene la llave — busca el checkpoint');}else if(pk.type==='fuel'){if(!p.carryingFuel){p.carryingFuel=true;toast('⛽ ¡Bidón recogido! Llévalo al depósito 🔴',2000);}}mkParticles(pk.x,pk.y,8,pk.type==='medkit'?'#ff6060':pk.type==='key'?'#c9a96e':'#60c060',5);updateZHUD();});});
+  zG.pickups.forEach(function(pk){
+    if(pk.taken)return;
+    var pickedBy=null;
+    zG.players.forEach(function(p){
+      if(pickedBy||!p.alive||Math.hypot(p.x-pk.x,p.y-pk.y)>30)return;
+      if(pk.type==='fuel'){
+        if(!p.carryingFuel){pickedBy=p;pk.taken=true;p.carryingFuel=true;
+          toast('⛽ '+(p.pid===0?'Aracellita':'Adriancito')+' cargó bidón → ¡al punto 🔴!',2500);
+          mkParticles(pk.x,pk.y,10,'#60c060',5);updateZHUD();}
+        return;
+      }
+      pk.taken=true;pickedBy=p;
+      if(pk.type==='medkit'){p.hp=Math.min(p.maxHp,p.hp+90);toast('💊 +90 HP',1500);}
+      else if(pk.type==='ammo'){p.wpns.forEach(function(w){if(w.type==='ranged')w.ammo=Math.min(w.ammo+40,w.max||99);});toast('🔋 +40 Munición',1500);}
+      else if(pk.type==='weapon'){var nw=mkWpn(pk.wid);p.wpns[0]=nw;toast('🔫 '+nw.name,2000);}
+      else if(pk.type==='key'){p.hasKey=true;zShowKeyBanner('🗝️ '+(p.pid===0?'Aracellita':'Adriancito')+' tiene la llave — busca el checkpoint');}
+      mkParticles(pk.x,pk.y,8,pk.type==='medkit'?'#ff6060':pk.type==='key'?'#c9a96e':'#60c060',5);
+      updateZHUD();
+    });
+  });
   if(zG.mapIdx===1&&zG.mapData.depositPos){var dep=zG.mapData.depositPos;zG.players.forEach(function(p){if(!p.alive||!p.carryingFuel)return;if(Math.hypot(p.x-dep.x,p.y-dep.y)<ZTL*2){p.carryingFuel=false;zG.fuelCollected++;mkParticles(dep.x,dep.y,10,'#60c060',6);toast('⛽ Bidón depositado! '+zG.fuelCollected+'/'+zG.fuelNeeded,2000);if(zG.fuelCollected>=zG.fuelNeeded){zG.cpUnlocked=true;zBanner('⛽ ¡Combustible completo!','¡El checkpoint está desbloqueado! 🔓',4000);}}});}
   if(!zG.cpOverlay){zG.checkpoints.forEach(function(cp){if(cp.reached)return;zG.players.forEach(function(p){if(!p.alive)return;if(Math.hypot(p.x-cp.x,p.y-cp.y)<ZTL*2.2){if(!zG.cpUnlocked){if(!cp.hintShown){cp.hintShown=true;zShowKeyBanner(zG.mapIdx===0?'🗝️ Necesitas la llave para entrar':'⛽ Necesitas '+zG.fuelNeeded+' bidones primero');}return;}var allIn=zG.players.filter(function(p2){return p2.alive;}).every(function(p2){return Math.hypot(p2.x-cp.x,p2.y-cp.y)<ZTL*3;});if(!allIn){if(!cp.hintShown2){cp.hintShown2=true;zShowKeyBanner('¡Ambos jugadores deben estar aquí!');}return;}if(zG.mapIdx===0)p.hasKey=false;cp.reached=true;if(!zG.checkDone){zG.checkDone=true;completeTask('zb',0);toast('¡Checkpoint! +5 fotos 🗺️',3000);}showCPOverlay(cp);}});});}
   if(zG.mapIdx===2&&zG.btnPos&&!zG.btnPos.pressed){zG.players.forEach(function(p){if(!p.alive)return;if(Math.hypot(p.x-zG.btnPos.x,p.y-zG.btnPos.y)<ZTL*1.8){zG.btnPos.pressed=true;zG.megaWaveActive=true;zG.megaWaveTimer=60*120;var pool3=[];zG.mapData.map.forEach(function(row,r){row.forEach(function(ch,c){if(ch==='.'&&zG.players.every(function(p2){return Math.hypot(p2.x-c*ZTL-ZTL/2,p2.y-r*ZTL-ZTL/2)>250;}))pool3.push({x:c*ZTL+ZTL/2,y:r*ZTL+ZTL/2});});});for(var wi=0;wi<30;wi++){if(!pool3.length)break;var sp4=pool3[Math.floor(Math.random()*pool3.length)];var zt=['walker','runner','tank','spitter','boomer'][Math.floor(Math.random()*5)];var cfg4=Z_TYPES[zt];zG.zombies.push(Object.assign({},cfg4,{x:sp4.x,y:sp4.y,type:zt,angle:0,cd:0,spitCd:0,alive:true,spd:cfg4.spd*(0.9+Math.random()*0.3)}));}zBanner('🚨 ¡ALARMA ACTIVADA!','¡2 minutos de mega-oleada! ¡Aguanten! 💀',5000);}});}
