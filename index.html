@@ -313,10 +313,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .z-joy-knob{width:36px;height:36px;border-radius:50%;position:absolute;transform:translate(-50%,-50%);left:50%;top:50%;pointer-events:none;}
 .z-joy-knob.move{background:rgba(200,115,138,.6);border:2px solid rgba(200,115,138,.95);}
 .z-joy-knob.aim{background:rgba(255,160,60,.55);border:2px solid rgba(255,160,60,.85);}
-#zExitBtn{position:absolute;top:10px;left:10px;z-index:35;height:40px;min-width:80px;background:rgba(160,80,106,.92);border:2px solid rgba(255,255,255,.35);border-radius:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-appearance:none;padding:0 16px;box-shadow:0 3px 14px rgba(0,0,0,.5);gap:5px;}
-#zExitBtn:active{background:var(--rose);transform:scale(.94);}
-#zExitBtn span{font-size:14px;color:#fff;font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:.5px;white-space:nowrap;}
-#zExitWrap{display:none;}
+/* Exit button: semicircle on left-middle edge */
+#zExitWrap{position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:35;width:38px;height:72px;overflow:hidden;pointer-events:all;}
+#zExitBtn{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:68px;height:68px;background:rgba(160,80,106,.75);border:1.5px solid rgba(255,255,255,.25);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-appearance:none;box-shadow:2px 0 14px rgba(0,0,0,.4);}
+#zExitBtn:active{background:rgba(200,115,138,.9);}
+#zExitBtn span{margin-left:22px;font-size:13px;color:rgba(255,255,255,.9);font-family:'Nunito',sans-serif;font-weight:700;}
 .z-banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.9);border:1px solid rgba(201,169,110,.35);border-radius:16px;padding:16px 22px;text-align:center;pointer-events:none;z-index:20;opacity:0;transition:opacity .4s;}
 .z-banner.show{opacity:1;}
 .z-banner-title{font-family:'Great Vibes',cursive;font-size:28px;color:var(--rose-l);}
@@ -504,7 +505,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 // ════════════════════════════════════════════════════
 //  CONFIGURACIÓN — PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
 // ════════════════════════════════════════════════════
-const GS_URL = 'https://script.google.com/macros/s/AKfycbzKmhTO-C5emhuV1kfxG-Os_3-p3WQm4K3sEzkMQdNLSWppnHFSmg71VQfBRAqmD3fARQ/exec';
+const GS_URL = 'https://script.google.com/macros/s/AKfycbzRQVaJUU9LeEPmYuZ2q65Qz8ze-5kQ9Nz5DD5fBtAe9Q_tC5tSCBk1uHFITIiAKCQz4A/exec';
 // Ejemplo: 'https://script.google.com/macros/s/AKfycby.../exec'
 
 // ════════════════════════════════════════════════════
@@ -572,18 +573,28 @@ var diaryRefreshTimer=null;
 function diaryGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px';}
 
 function loadDiaryFromServer(){
+  if(!GS_URL||GS_URL==='PEGA_AQUI_TU_URL_EXEC'){
+    diaryMessages=S.diary.slice();renderDiary();return;
+  }
   gsGet({action:'getMsgs'},function(res){
     if(res&&res.success&&Array.isArray(res.messages)){
-      // Server is the source of truth — replace local with server list
+      // Server is the only source of truth.
+      // Only keep local messages that haven't been synced yet (no server match).
       var serverIds={};
-      res.messages.forEach(function(m){serverIds[m.id]=true;});
-      // Keep only messages that exist on server (removes deleted ones)
-      // But also keep messages not yet synced (sent while offline, no id match)
-      var serverMsgs=res.messages;
-      var localOnly=S.diary.filter(function(m){return !serverIds[m.id]&&m.name===S.playerName;});
-      var merged=serverMsgs.concat(localOnly);
-      merged.sort(function(a,b){return String(a.id||'').localeCompare(String(b.id||''));});
-      diaryMessages=merged;S.diary=merged;save();
+      res.messages.forEach(function(m){if(m.id)serverIds[m.id]=true;});
+      // Unsent local messages (temporary, will sync on next send)
+      var pendingLocal=S.diary.filter(function(m){
+        return m.id&&!serverIds[m.id]&&m._pending===true;
+      });
+      var merged=res.messages.concat(pendingLocal);
+      merged.sort(function(a,b){return String(a.id||'0').localeCompare(String(b.id||'0'));});
+      diaryMessages=merged;
+      // Update local cache to match server (removes deleted messages)
+      S.diary=merged.filter(function(m){return !m._pending;});
+      save();
+    } else if(res&&res.success&&res.messages&&res.messages.length===0){
+      // Server returned empty — clear local cache too
+      diaryMessages=[];S.diary=[];save();
     } else {
       diaryMessages=S.diary.slice();
     }
@@ -804,18 +815,44 @@ function triggerEmojiZone(e,emoji){
 function wpSubmit(){
   var name=$('wpNameIn').value.trim();
   if(!name)return;
-  S.playerName=name;save();
   $('welcomePopup').classList.remove('open');
-  $('hdrSub').textContent='Adriancito & '+name+' 💕';
-  toast('¡Bienvenida '+name+'! 💕 Completa misiones para desbloquear fotos',4000);
-  gsPost({action:'registerUser',name:name,time:new Date().toLocaleString('es')});
-  loadDiaryFromServer();
+  // Check if this name already exists on server — if so, load their progress
+  verifyAndLogin(name);
+}
+function verifyAndLogin(name){
+  if(!GS_URL||GS_URL==='PEGA_AQUI_TU_URL_EXEC'){
+    // No server — just set name and start fresh
+    S.playerName=name;save();
+    $('hdrSub').textContent='Adriancito & '+name+' 💕';
+    toast('¡Bienvenida '+name+'! 💕',3000);
+    renderAlbum();loadDiaryFromServer();return;
+  }
+  gsGet({action:'getUserData',name:name},function(res){
+    S.playerName=name;
+    if(res&&res.found&&res.progress){
+      // Restore saved progress from server
+      try{
+        var prog=res.progress;
+        if(prog.ug!==undefined)S.ug=prog.ug;
+        if(prog.tasks)S.tasks=prog.tasks;
+        if(prog.scores)S.scores=prog.scores;
+        if(prog.checks)S.checks=prog.checks;
+        save();
+        toast('¡Bienvenida de vuelta '+name+'! Tu progreso fue restaurado 💕',4000);
+      }catch(e){toast('¡Bienvenida '+name+'! 💕',3000);}
+    } else {
+      // New user — register them
+      toast('¡Bienvenida '+name+'! 💕 Completa misiones para desbloquear fotos',4000);
+      gsPost({action:'registerUser',name:name,time:new Date().toLocaleString('es')});
+    }
+    save();
+    $('hdrSub').textContent='Adriancito & '+name+' 💕';
+    renderAlbum();loadDiaryFromServer();
+  });
 }
 function verifyUserExists(name,cb){
   if(!GS_URL||GS_URL==='PEGA_AQUI_TU_URL_EXEC'){cb(true);return;}
-  gsGet({action:'checkUser',name:name},function(res){
-    cb(!!(res&&res.exists));
-  });
+  gsGet({action:'checkUser',name:name},function(res){cb(!!(res&&res.exists));});
 }
 
 // ════════════════════════════════════════════════════
@@ -1434,7 +1471,7 @@ function initZombie(){
   body.innerHTML='<div id="zWrap"><canvas id="zCanvas"></canvas><div id="boomerFog"></div>'
     +'<div id="zBanner" class="z-banner"><div class="z-banner-title" id="zBT"></div><div class="z-banner-sub" id="zBS"></div></div>'
     +'<div id="zKeyBanner" class="z-key-banner"></div>'
-    +'<button id="zExitBtn" onclick="closeGame()"><span>✕ Salir</span></button>'
+    +'<div id="zExitWrap"><button id="zExitBtn" onclick="closeGame()"><span>✕</span></button></div>'
     +'</div>';
   showZIntro();
 }
@@ -1505,10 +1542,35 @@ function loadMap(mi){
     else if(ch==='E')heliPos={x:px,y:py};
     else if(ch==='B'){btnPos={x:px,y:py,pressed:false};map[r][c]='.';}
   });});
-  if(mi===0&&checkpoints.length>0&&!pickups.some(function(p){return p.type==='key';})){
-    var cp0=checkpoints[0];var cands=[];
-    map.forEach(function(row,r){row.forEach(function(ch2,c){if(ch2==='.'){var px2=c*ZTL+ZTL/2,py2=r*ZTL+ZTL/2;if(Math.hypot(px2-cp0.x,py2-cp0.y)>ZTL*14)cands.push({x:px2,y:py2});}});});
-    if(cands.length){var ki=cands[Math.floor(Math.random()*cands.length)];pickups.push({x:ki.x,y:ki.y,type:'key',taken:false});}
+  if(mi===0){
+    // ALWAYS remove any old key and place exactly one, far from checkpoint & spawn
+    pickups=pickups.filter(function(p){return p.type!=='key';});
+    var cp0=checkpoints.length>0?checkpoints[0]:{x:ZTL*30,y:ZTL*30};
+    var sp0=starts[0]||{x:ZTL*3,y:ZTL*3};
+    var keyCands=[];
+    map.forEach(function(row,r){row.forEach(function(ch2,c){
+      if(ch2!=='.')return;
+      var px2=c*ZTL+ZTL/2,py2=r*ZTL+ZTL/2;
+      var farCP=Math.hypot(px2-cp0.x,py2-cp0.y)>ZTL*16;
+      var farSP=Math.hypot(px2-sp0.x,py2-sp0.y)>ZTL*8;
+      // Also verify tile has walkable neighbors (not isolated)
+      var hasNeighbor=[[0,1],[0,-1],[1,0],[-1,0]].some(function(d){
+        var nr=r+d[0],nc=c+d[1];
+        return nr>=0&&nr<rows&&nc>=0&&nc<cols&&map[nr][nc]==='.';
+      });
+      if(farCP&&farSP&&hasNeighbor)keyCands.push({x:px2,y:py2});
+    });});
+    // Pick a random accessible far tile
+    if(!keyCands.length){
+      // fallback: just far from checkpoint
+      map.forEach(function(row,r){row.forEach(function(ch2,c){
+        if(ch2==='.')keyCands.push({x:c*ZTL+ZTL/2,y:r*ZTL+ZTL/2});
+      });});
+    }
+    if(keyCands.length){
+      var ki=keyCands[Math.floor(Math.random()*keyCands.length)];
+      pickups.push({x:ki.x,y:ki.y,type:'key',taken:false});
+    }
   }
   if(mi===1){
     var fAll=[];
@@ -1567,7 +1629,9 @@ function zBeginGame(mi){
     wave:1,kills:0,totalScore:0,waveActive:false,waveBreak:0,waveBreakMax:360,
     checkpoints:md.checkpoints,checkDone:S.tasks.zb[0],escapeDone:S.tasks.zb[1],
     gameOver:false,gameWon:false,cpOverlay:false,mapTransition:false,
-    fuelCollected:0,fuelNeeded:5,cpUnlocked:mi!==1,
+    fuelCollected:0,fuelNeeded:5,
+    // map0=needs key (locked), map1=needs fuel (locked), map2=no lock
+    cpUnlocked:mi===2,
     btnPos:md.btnPos,btnPressed:false,megaWaveActive:false,megaWaveTimer:0,heliUnlocked:mi!==2};
   buildZControls();zSpawnWave(1);
   var banners=['🗝️ Mapa 1: Encuentra la llave y el checkpoint','⛽ Mapa 2: Recoge 5 bidones de combustible','🔘 Mapa 3: Activa el botón y sobrevive 2 minutos'];
@@ -1873,6 +1937,14 @@ function zDraw(){
   if(zG.megaWaveActive){var mt=Math.ceil(zG.megaWaveTimer/60);var mm=Math.floor(mt/60),ms=mt%60;ctx.fillStyle='rgba(180,20,20,.85)';ctx.fillRect(W/2-90,3,180,28);ctx.fillStyle='#fff';ctx.font='bold 12px Arial';ctx.textAlign='center';ctx.fillText('🚨 MEGA-OLEADA '+(mm>0?mm+'m ':'')+ms+'s',W/2,21);}
   if(zG.mapIdx===1&&!zG.cpUnlocked){ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillRect(W/2-70,H-30,140,24);ctx.fillStyle='rgba(100,220,100,.95)';ctx.font='bold 11px Arial';ctx.textAlign='center';ctx.fillText('⛽ '+zG.fuelCollected+'/'+zG.fuelNeeded+' bidones',W/2,H-13);}
   ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='10px Arial';ctx.textAlign='left';ctx.fillText('Mapa '+(zG.mapIdx+1)+'/3  ·  Oleada '+zG.wave+'  ·  🧟 '+zG.kills+'  ·  ⭐ '+zG.totalScore,8,H-6);
+  // Map1: key status HUD at bottom-right
+  if(zG.mapIdx===0){
+    var hasKey=zG.players.some(function(p){return p.hasKey;});
+    var keyTxt=zG.cpUnlocked?'🔓 Checkpoint abierto':hasKey?'🗝️ Lleva la llave al checkpoint':'🗝️ Busca la llave';
+    var keyCol=zG.cpUnlocked?'rgba(100,220,100,.9)':hasKey?'rgba(201,169,110,.95)':'rgba(255,255,255,.45)';
+    ctx.fillStyle='rgba(0,0,0,.6)';var tw=ctx.measureText(keyTxt).width;ctx.fillRect(W-tw-22,H-28,tw+16,22);
+    ctx.fillStyle=keyCol;ctx.font='bold 11px Arial';ctx.textAlign='right';ctx.fillText(keyTxt,W-8,H-12);
+  }
 }
 </script>
 </body>
