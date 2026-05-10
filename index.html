@@ -623,11 +623,16 @@ function diarySend(){
   if(!txt||!S.playerName)return;
   inp.value='';inp.style.height='auto';
   var btn=$('diarySendBtn');btn.textContent='⏳';
+  var now=new Date();
+  var day=String(now.getDate()).padStart(2,'0');
+  var month=String(now.getMonth()+1).padStart(2,'0');
+  var hour=String(now.getHours()).padStart(2,'0');
+  var minute=String(now.getMinutes()).padStart(2,'0');
   var msg={
     id:Date.now().toString(),
     name:S.playerName,
     text:txt,
-    time:new Date().toLocaleString('es',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
+    time:day+'/'+month+' '+hour+':'+minute
   };
   S.diary.push(msg);
   diaryMessages=S.diary.slice();
@@ -1083,12 +1088,14 @@ $('lb').addEventListener('click',function(e){if(e.target===$('lb'))lbClose();});
 // ════════════════════════════════════════════════════
 function tryUnlock(){
   var n=S.ug;
-  if(S.tasks.hm[0])n=Math.max(n,1);
-  if(S.tasks.hm[1])n=Math.max(n,2);
-  if(S.tasks.bb[0])n=Math.max(n,3);
-  if(S.tasks.bb[1])n=Math.max(n,4);
-  if(S.tasks.zb[0])n=Math.max(n,5);
-  if(S.tasks.zb[1])n=Math.max(n,6);
+  // Solo debloquea el siguiente nivel, no salta niveles
+  if(S.tasks.hm[0]&&S.ug<1){n=1;}
+  else if(S.tasks.hm[1]&&S.ug<2){n=2;}
+  else if(S.tasks.bb[0]&&S.ug<3){n=3;}
+  else if(S.tasks.bb[1]&&S.ug<4){n=4;}
+  else if(S.tasks.zb[0]&&S.ug<5){n=5;}
+  else if(S.tasks.zb[1]&&S.ug<6){n=6;}
+
   if(n>S.ug){S.ug=n;save();showUnlock('¡'+(S.ug*5)+' fotos desbloqueadas! 🎉');renderAlbum();}
 }
 function showUnlock(msg){$('ubMsg').textContent=msg;var b=$('unlockBanner');b.classList.add('show');setTimeout(function(){b.classList.remove('show');},3800);}
@@ -1274,6 +1281,8 @@ function bbSmartSpawn(grid){
 }
 function initBB(){
   $('goTitle').textContent='Block Blast';$('goBody').classList.add('scrollable');
+  // Limpiar estado anterior
+  bbCleanListeners();
   var bw=Math.min(window.innerWidth-32,320);bbSZ=Math.floor(bw/BBC);
   bbGrid=Array.from({length:BBR},function(){return Array(BBC).fill(null);});
   bbScore=0;bbSel=0;bbOver=false;bbDrag=null;bbDragCell={r:-1,c:-1};
@@ -1287,6 +1296,7 @@ function renderBB(){
       +(bbScore>=2000?'<div class="bb-otd">✦ Tarea 2: ¡Completada! ✨</div>':'')
       +'<button class="hm-btn" onclick="initBB()">De nuevo 💕</button></div>';return;
   }
+  // Mostrar la meta correcta según lo que falta
   var target=!S.tasks.bb[0]?500:!S.tasks.bb[1]?2000:9999;
   body.innerHTML='<div class="bb-wrap"><div class="bb-top">'
     +'<div class="bb-stat"><div class="bb-sv" id="bbSvEl">'+bbScore+'</div><div class="bb-sl">Puntos</div></div>'
@@ -1454,9 +1464,20 @@ function bbTryPlace(piece,r,c){
   if(!S.tasks.bb[0]&&bbScore>=500){completeTask('bb',0);toast('¡500 puntos! +5 fotos 🌹',3000);}
   if(bbScore>(S.scores.bbBest||0)){S.scores.bbBest=bbScore;save();}
   if(!S.tasks.bb[1]&&bbScore>=2000){completeTask('bb',1);toast('¡2000 puntos! +5 fotos ✨',3000);}
-  if(bbPieces.every(function(p){return p.used;}))bbPieces=bbSmartSpawn(bbGrid);
+  // Solo generar nuevas piezas si todas las actuales fueron usadas
+  if(bbPieces.every(function(p){return p.used;})){
+    bbPieces=bbSmartSpawn(bbGrid);
+  }
   bbSel=bbPieces.findIndex(function(p){return !p.used;});
-  if(bbSel<0||!bbCanAny()){bbOver=true;renderBB();return true;}
+  // Si no hay más piezas disponibles O no hay lugar para colocar ninguna, game over
+  if(bbSel<0){
+    // Seleccionar la primer pieza usada como fallback
+    bbSel=0;
+  }
+  if(!bbCanAny()){
+    bbOver=true;renderBB();
+    return true;
+  }
   bbDrawGrid(-1,-1);bbBuildTray();return true;
 }
 function bbCanPlace(shp,r,c,grid){return shp.every(function(row,dr){return row.every(function(cell,dc){if(!cell)return true;var nr=r+dr,nc=c+dc;return nr>=0&&nr<BBR&&nc>=0&&nc<BBC&&!grid[nr][nc];});});}
