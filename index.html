@@ -314,10 +314,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .z-joy-knob.move{background:rgba(200,115,138,.6);border:2px solid rgba(200,115,138,.95);}
 .z-joy-knob.aim{background:rgba(255,160,60,.55);border:2px solid rgba(255,160,60,.85);}
 /* Exit button: semicircle on left-middle edge */
-#zExitWrap{position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:35;width:38px;height:72px;overflow:hidden;pointer-events:all;}
-#zExitBtn{position:absolute;left:-24px;top:50%;transform:translateY(-50%);width:68px;height:68px;background:rgba(160,80,106,.75);border:1.5px solid rgba(255,255,255,.25);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-appearance:none;box-shadow:2px 0 14px rgba(0,0,0,.4);}
+#zExitWrap{position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:35;width:40px;height:70px;overflow:hidden;pointer-events:all;}
+#zExitBtn{position:absolute;left:-34px;top:50%;transform:translateY(-50%);width:70px;height:70px;background:rgba(160,80,106,.75);border:1.5px solid rgba(255,255,255,.25);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-appearance:none;box-shadow:2px 0 14px rgba(0,0,0,.4);}
 #zExitBtn:active{background:rgba(200,115,138,.9);}
-#zExitBtn span{margin-left:22px;font-size:13px;color:rgba(255,255,255,.9);font-family:'Nunito',sans-serif;font-weight:700;}
+#zExitBtn span{margin-left:24px;font-size:13px;color:rgba(255,255,255,.9);font-family:'Nunito',sans-serif;font-weight:700;}
 .z-banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.9);border:1px solid rgba(201,169,110,.35);border-radius:16px;padding:16px 22px;text-align:center;pointer-events:none;z-index:20;opacity:0;transition:opacity .4s;}
 .z-banner.show{opacity:1;}
 .z-banner-title{font-family:'Great Vibes',cursive;font-size:28px;color:var(--rose-l);}
@@ -530,6 +530,22 @@ function switchTab(btn,id){
   $('panel-'+id).classList.add('active');
   if(id==='diary'){diaryMessages=S.diary.slice();renderDiary();loadDiaryFromServer();}
   if(id==='scores')renderScores();
+  // Verify user still exists in database every time we switch tabs
+  if(S.playerName)verifyUserStillExists();
+}
+
+// Verifica si el usuario aún existe en la base de datos (para logout automático si fue eliminado)
+function verifyUserStillExists(){
+  if(!S.playerName||!GS_URL||GS_URL==='PEGA_AQUI_TU_URL_EXEC')return;
+  gsGet({action:'checkUser',name:S.playerName},function(res){
+    if(res&&!res.exists){
+      // Usuario fue eliminado de la BD
+      S.playerName=null;S.ug=0;S.photos=[];S.checks=[];S.tasks={hm:[false,false],bb:[false,false],zb:[false,false]};S.diary=[];save();
+      $('mainScreen').classList.add('hidden');
+      $('loginScreen').classList.remove('hidden');
+      toast('Tu usuario fue eliminado de la base de datos. Ingresa nuevamente 🔑',4500);
+    }
+  });
 }
 
 // ════════════════════════════════════════════════════
@@ -578,8 +594,7 @@ function loadDiaryFromServer(){
   }
   gsGet({action:'getMsgs'},function(res){
     if(res&&res.success&&Array.isArray(res.messages)){
-      // Server is the only source of truth.
-      // Only keep local messages that haven't been synced yet (no server match).
+      // Server is the only source of truth — mostrar TODOS los mensajes
       var serverIds={};
       res.messages.forEach(function(m){if(m.id)serverIds[m.id]=true;});
       // Unsent local messages (temporary, will sync on next send)
@@ -638,6 +653,7 @@ function renderDiary(){
       var sep=document.createElement('div');sep.className='diary-date-sep';
       sep.textContent=datePart;feed.appendChild(sep);
     }
+    // Mostrar TODOS los mensajes sin importar quién sea (chat interactivo)
     var mine=m.name===S.playerName;
     var initial=(m.name||'?')[0].toUpperCase();
     var acol=mine?'var(--rose)':'var(--gold)';
@@ -828,6 +844,15 @@ function verifyAndLogin(name){
     renderAlbum();loadDiaryFromServer();return;
   }
   gsGet({action:'getUserData',name:name},function(res){
+    // Check if user exists in the server
+    if(res&&!res.found){
+      // User was deleted from database — force logout
+      S.playerName=null;S.ug=0;S.photos=[];S.checks=[];S.tasks={hm:[false,false],bb:[false,false],zb:[false,false]};S.diary=[];save();
+      $('mainScreen').classList.add('hidden');
+      $('loginScreen').classList.remove('hidden');
+      toast('Tu usuario fue eliminado de la base de datos. Ingresa nuevamente con contraseña 🔑',4500);
+      return;
+    }
     S.playerName=name;
     if(res&&res.found&&res.progress){
       // Restore saved progress from server
