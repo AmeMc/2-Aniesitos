@@ -505,7 +505,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 // ════════════════════════════════════════════════════
 //  CONFIGURACIÓN — PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
 // ════════════════════════════════════════════════════
-const GS_URL = 'https://script.google.com/macros/s/AKfycbzRQVaJUU9LeEPmYuZ2q65Qz8ze-5kQ9Nz5DD5fBtAe9Q_tC5tSCBk1uHFITIiAKCQz4A/exec';
+const GS_URL = 'PEGA_AQUI_TU_URL_EXEC';
 // Ejemplo: 'https://script.google.com/macros/s/AKfycby.../exec'
 
 // ════════════════════════════════════════════════════
@@ -844,18 +844,9 @@ function verifyAndLogin(name){
     renderAlbum();loadDiaryFromServer();return;
   }
   gsGet({action:'getUserData',name:name},function(res){
-    // Check if user exists in the server
-    if(res&&!res.found){
-      // User was deleted from database — force logout
-      S.playerName=null;S.ug=0;S.photos=[];S.checks=[];S.tasks={hm:[false,false],bb:[false,false],zb:[false,false]};S.diary=[];save();
-      $('mainScreen').classList.add('hidden');
-      $('loginScreen').classList.remove('hidden');
-      toast('Tu usuario fue eliminado de la base de datos. Ingresa nuevamente con contraseña 🔑',4500);
-      return;
-    }
     S.playerName=name;
     if(res&&res.found&&res.progress){
-      // Restore saved progress from server
+      // User exists in server — restore saved progress
       try{
         var prog=res.progress;
         if(prog.ug!==undefined)S.ug=prog.ug;
@@ -866,7 +857,7 @@ function verifyAndLogin(name){
         toast('¡Bienvenida de vuelta '+name+'! Tu progreso fue restaurado 💕',4000);
       }catch(e){toast('¡Bienvenida '+name+'! 💕',3000);}
     } else {
-      // New user — register them
+      // New user OR user was deleted from DB and now creating fresh — register them
       toast('¡Bienvenida '+name+'! 💕 Completa misiones para desbloquear fotos',4000);
       gsPost({action:'registerUser',name:name,time:new Date().toLocaleString('es')});
     }
