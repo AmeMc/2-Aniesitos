@@ -103,7 +103,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .btab.active .btab-dot{opacity:1;}
 
 /* ── ALBUM ── */
-.album-wrap{padding:13px 12px 80px;max-width:540px;margin:0 auto;}
+.album-wrap{padding:14px 12px 90px;max-width:480px;margin:0 auto;}
 .sec-title{font-family:'Great Vibes',cursive;font-size:clamp(24px,7vw,36px);color:var(--rose);text-align:center;}
 .sec-sub{font-family:'Cormorant Garamond',serif;font-size:9px;letter-spacing:3px;color:var(--text-l);text-transform:uppercase;text-align:center;margin:2px 0 13px;}
 .album-prog{background:rgba(200,115,138,.09);border-radius:12px;padding:11px 14px;margin-bottom:15px;border:1px solid rgba(200,115,138,.15);}
@@ -124,7 +124,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 /* horizontal slot: 8w × 5.5h = 1.454 ratio, spans full row */
 .photo-slot.horiz{aspect-ratio:80/55;grid-column:1/-1;}
 /* photo number badge */
-.photo-num{position:absolute;top:5px;left:6px;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);color:rgba(255,255,255,.9);font-family:'Cormorant Garamond',serif;font-size:10px;font-weight:600;letter-spacing:.5px;padding:1px 6px;border-radius:20px;z-index:4;pointer-events:none;}
+.photo-num{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);color:#fff;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;line-height:1;padding:3px 9px;border-radius:20px;z-index:4;pointer-events:none;border:1px solid rgba(255,255,255,.18);text-shadow:0 1px 3px rgba(0,0,0,.5);}
 .photo-del{position:absolute;top:5px;right:5px;background:rgba(255,255,255,.88);border:none;border-radius:50%;width:20px;height:20px;font-size:9px;color:var(--rose);display:flex;align-items:center;justify-content:center;opacity:0;cursor:pointer;font-weight:bold;z-index:5;}
 .photo-slot:hover .photo-del,.photo-slot:active .photo-del{opacity:1;}
 /* locked */
@@ -268,7 +268,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .photo-chk.checked{background:var(--rose);border-color:#fff;box-shadow:0 0 0 2px rgba(200,115,138,.4),0 2px 6px rgba(160,80,106,.5);}
 .photo-chk.checked::after{content:'♥';font-size:9px;color:#fff;line-height:1;}
 /* ── GOLD FRAME SLOT (foto 31 especial) ── */
-.slot-gold-frame{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:55/80;cursor:pointer;box-shadow:0 0 0 3px var(--gold),0 0 0 6px rgba(201,169,110,.18),0 6px 28px rgba(160,80,106,.3);transition:transform .3s,box-shadow .3s;max-width:200px;margin:0 auto;}
+.slot-gold-frame{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:55/80;cursor:pointer;box-shadow:0 0 0 3px var(--gold),0 0 0 7px rgba(201,169,110,.22),0 8px 32px rgba(160,80,106,.35);transition:transform .3s,box-shadow .3s;max-width:240px;margin:0 auto;}
 .slot-gold-frame:hover{transform:scale(1.02);box-shadow:0 0 0 3px var(--gold),0 0 0 8px rgba(201,169,110,.25),0 10px 36px rgba(160,80,106,.4);}
 .slot-gold-frame:active{transform:scale(.97);}
 .slot-gold-frame img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -313,10 +313,10 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .z-joy-knob{width:36px;height:36px;border-radius:50%;position:absolute;transform:translate(-50%,-50%);left:50%;top:50%;pointer-events:none;}
 .z-joy-knob.move{background:rgba(200,115,138,.6);border:2px solid rgba(200,115,138,.95);}
 .z-joy-knob.aim{background:rgba(255,160,60,.55);border:2px solid rgba(255,160,60,.85);}
-#zExitBtn{position:absolute;left:-34px;top:50%;transform:translateY(-50%);z-index:30;width:68px;height:68px;background:rgba(200,115,138,.22);border:2px solid rgba(200,115,138,.5);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;touch-action:manipulation;-webkit-appearance:none;}
-#zExitBtn:active{background:rgba(200,115,138,.45);}
-#zExitBtn span{margin-left:28px;font-size:18px;color:#fff;}
-#zExitWrap{position:absolute;left:0;top:50%;transform:translateY(-50%);z-index:30;width:46px;height:68px;overflow:hidden;pointer-events:all;}
+#zExitBtn{position:absolute;top:10px;left:10px;z-index:35;height:40px;min-width:80px;background:rgba(160,80,106,.92);border:2px solid rgba(255,255,255,.35);border-radius:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-appearance:none;padding:0 16px;box-shadow:0 3px 14px rgba(0,0,0,.5);gap:5px;}
+#zExitBtn:active{background:var(--rose);transform:scale(.94);}
+#zExitBtn span{font-size:14px;color:#fff;font-family:'Nunito',sans-serif;font-weight:700;letter-spacing:.5px;white-space:nowrap;}
+#zExitWrap{display:none;}
 .z-banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.9);border:1px solid rgba(201,169,110,.35);border-radius:16px;padding:16px 22px;text-align:center;pointer-events:none;z-index:20;opacity:0;transition:opacity .4s;}
 .z-banner.show{opacity:1;}
 .z-banner-title{font-family:'Great Vibes',cursive;font-size:28px;color:var(--rose-l);}
@@ -504,7 +504,7 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 // ════════════════════════════════════════════════════
 //  CONFIGURACIÓN — PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
 // ════════════════════════════════════════════════════
-const GS_URL = 'https://script.google.com/macros/s/AKfycbxRWLr0e7DEP82oKttFEmKameCJxhglpn6XV0SUXEyvqRDiBGf7G53owGNp_gZi-D1wrA/exec';
+const GS_URL = 'https://script.google.com/macros/s/AKfycbzKmhTO-C5emhuV1kfxG-Os_3-p3WQm4K3sEzkMQdNLSWppnHFSmg71VQfBRAqmD3fARQ/exec';
 // Ejemplo: 'https://script.google.com/macros/s/AKfycby.../exec'
 
 // ════════════════════════════════════════════════════
@@ -573,10 +573,15 @@ function diaryGrow(el){el.style.height='auto';el.style.height=Math.min(el.scroll
 
 function loadDiaryFromServer(){
   gsGet({action:'getMsgs'},function(res){
-    if(res&&res.success&&Array.isArray(res.messages)&&res.messages.length){
-      var ids={};S.diary.forEach(function(m){ids[m.id]=true;});
-      var merged=S.diary.slice();
-      res.messages.forEach(function(m){if(!ids[m.id])merged.push(m);});
+    if(res&&res.success&&Array.isArray(res.messages)){
+      // Server is the source of truth — replace local with server list
+      var serverIds={};
+      res.messages.forEach(function(m){serverIds[m.id]=true;});
+      // Keep only messages that exist on server (removes deleted ones)
+      // But also keep messages not yet synced (sent while offline, no id match)
+      var serverMsgs=res.messages;
+      var localOnly=S.diary.filter(function(m){return !serverIds[m.id]&&m.name===S.playerName;});
+      var merged=serverMsgs.concat(localOnly);
       merged.sort(function(a,b){return String(a.id||'').localeCompare(String(b.id||''));});
       diaryMessages=merged;S.diary=merged;save();
     } else {
@@ -804,6 +809,13 @@ function wpSubmit(){
   $('hdrSub').textContent='Adriancito & '+name+' 💕';
   toast('¡Bienvenida '+name+'! 💕 Completa misiones para desbloquear fotos',4000);
   gsPost({action:'registerUser',name:name,time:new Date().toLocaleString('es')});
+  loadDiaryFromServer();
+}
+function verifyUserExists(name,cb){
+  if(!GS_URL||GS_URL==='PEGA_AQUI_TU_URL_EXEC'){cb(true);return;}
+  gsGet({action:'checkUser',name:name},function(res){
+    cb(!!(res&&res.exists));
+  });
 }
 
 // ════════════════════════════════════════════════════
@@ -830,7 +842,7 @@ var GOLD_PHOTO_URL='';
 var GRP=[
   {name:'Primer Capítulo',game:'El Ahorcado',task:'hm0',emoji:['🌹','💕','🌙','🦋','✨'],chks:[1,1,1,1,4]},
   {name:'Momentos Dulces',game:'El Ahorcado',task:'hm1',emoji:['🍓','🌸','☁️','🎀','🌻'],chks:[1,1,1,1,1]},
-  {name:'Nuestras Aventuras',game:'Block Blast',task:'bb0',emoji:['🗺️','🌊','🏔️','🎠','🌅'],chks:[1,1,2,1,1]},
+  {name:'Nuestras Aventuras',game:'Block Blast',task:'bb0',emoji:['🗺️','🌊','🏔️','🎠','🌅'],chks:[1,1,1,1,1]},
   {name:'En Nuestro Mundo',game:'Block Blast',task:'bb1',emoji:['🏠','🌃','🎶','📖','🕯️'],chks:[1,1,1,1,1]},
   {name:'Nuestro Escape',game:'Escape Juntos',task:'zb0',emoji:['💒','🥂','🌠','🫶','👑'],chks:[1,1,1,1,1]},
   {name:'Para Siempre',game:'Escape Juntos',task:'zb1',emoji:['🎊','🌟','💝','🔮','✨'],chks:[1,1,1,1,4]}
@@ -838,9 +850,9 @@ var GRP=[
 var uploadTarget={g:0,i:0,gold:false};
 
 // special layout indices (0-based global)
-var HORIZ_IDX={3:1,14:1,19:1,21:1,22:1,23:1,24:1};
+var HORIZ_IDX={3:1,19:1,21:1,22:1,23:1,24:1};// 14 removed: photo15 is portrait
 var CORNER4_IDX={4:1,29:1};
-var CORNER2_IDX={14:1};
+var CORNER2_IDX={14:1};// photo15: portrait, 2 corner checkboxes
 var SPARKLE_IDX={24:1,25:1,26:1,27:1,28:1,29:1};
 
 function renderAlbum(){
@@ -883,7 +895,8 @@ function renderAlbum(){
           var a=document.createElement('div');
           a.className='slot-emoji'+(isHoriz?' horiz':'');
           a.textContent=g.emoji[i];
-          (function(gi2,i2){a.onclick=function(){uploadTarget={g:gi2,i:i2,gold:false};$('photoInput').click();};})(gi,i);
+          // URL-based only: no phone gallery upload for album slots
+          (function(gi2,i2){a.onclick=function(){toast('Agrega la URL de la foto en el HTML 📸',2000);};})(gi,i);
           s.appendChild(a);
         }
         // Number badge
@@ -1070,10 +1083,17 @@ function openGame(g){
   else if(g==='block')initBB();
   else if(g==='zombie')initZombie();
 }
+var _bbH={mv:null,en:null,ca:null};
+function bbCleanListeners(){
+  if(_bbH.mv){window.removeEventListener('touchmove',_bbH.mv,{passive:false});_bbH.mv=null;}
+  if(_bbH.en){window.removeEventListener('touchend',_bbH.en,false);_bbH.en=null;}
+  if(_bbH.ca){window.removeEventListener('touchcancel',_bbH.ca,false);_bbH.ca=null;}
+}
 function closeGame(){
   if(zRAF){cancelAnimationFrame(zRAF);zRAF=null;}
   document.removeEventListener('keydown',zKD);
   document.removeEventListener('keyup',zKU);
+  bbCleanListeners();
   $('gameOverlay').classList.remove('open');
   $('goBar').style.display='';
   var gb=$('goBody');gb.innerHTML='';gb.classList.remove('scrollable');
@@ -1282,47 +1302,94 @@ function bbBuildTray(){
   });
 }
 function bbSetupDrag(){
+  bbCleanListeners();
   var cv=$('bbCanvas');if(!cv)return;
   var tray=$('bbTray');if(!tray)return;
-  var activeTouchId=null;
+  var tid=null;
+
   function cellAt(ex,ey){
-    var rect=cv.getBoundingClientRect();if(!rect.width)return{r:-1,c:-1};
-    return{r:Math.floor(((ey-rect.top)*(cv.height/rect.height))/bbSZ),c:Math.floor(((ex-rect.left)*(cv.width/rect.width))/bbSZ)};
+    var rect=cv.getBoundingClientRect();
+    if(!rect||!rect.width)return{r:-1,c:-1};
+    return{r:Math.floor(((ey-rect.top)*(cv.height/rect.height))/bbSZ),
+           c:Math.floor(((ex-rect.left)*(cv.width/rect.width))/bbSZ)};
   }
   function startDrag(pidx,cx,cy){
-    if(pidx<0||pidx>=bbPieces.length)return;var p=bbPieces[pidx];if(!p||p.used)return;
-    bbDrag=p;bbSel=pidx;bbBuildTray();bbMakeGhost(p);bbMoveGhost(cx,cy);
+    if(pidx<0||pidx>=bbPieces.length)return;
+    var p=bbPieces[pidx];if(!p||p.used)return;
+    bbDrag=p;bbSel=pidx;bbBuildTray();
+    bbMakeGhost(p);bbMoveGhost(cx,cy);
     var cell=cellAt(cx,cy);bbDragCell=cell;bbDrawGrid(cell.r,cell.c);
   }
   function moveDrag(cx,cy){
-    if(!bbDrag)return;bbMoveGhost(cx,cy);var cell=cellAt(cx,cy);bbDragCell=cell;bbDrawGrid(cell.r,cell.c);
+    if(!bbDrag)return;
+    bbMoveGhost(cx,cy);
+    var cell=cellAt(cx,cy);bbDragCell=cell;bbDrawGrid(cell.r,cell.c);
   }
   function endDrag(cx,cy){
-    if(!bbDrag){bbRemoveGhost();return;}bbRemoveGhost();
-    var cell=cellAt(cx,cy);bbTryPlace(bbDrag,cell.r,cell.c);
-    bbDrag=null;bbDragCell={r:-1,c:-1};bbDrawGrid(-1,-1);
+    bbRemoveGhost();
+    if(bbDrag){var cell=cellAt(cx,cy);bbTryPlace(bbDrag,cell.r,cell.c);}
+    bbDrag=null;bbDragCell={r:-1,c:-1};tid=null;bbDrawGrid(-1,-1);
   }
+  function cancel(){bbRemoveGhost();bbDrag=null;bbDragCell={r:-1,c:-1};tid=null;bbDrawGrid(-1,-1);}
+
+  // ── Touch: start on tray piece ──
   tray.addEventListener('touchstart',function(e){
-    var pw=null;
+    if(tid!==null)return;
     for(var i=0;i<e.changedTouches.length;i++){
-      var t=e.changedTouches[i];var el=document.elementFromPoint(t.clientX,t.clientY);
-      if(el)pw=el.closest('.bb-pw');
-      if(pw&&!pw.classList.contains('used')){e.preventDefault();e.stopPropagation();activeTouchId=t.identifier;startDrag(parseInt(pw.dataset.idx||'0'),t.clientX,t.clientY);break;}
+      var t=e.changedTouches[i];
+      var el=document.elementFromPoint(t.clientX,t.clientY);
+      var pw=el?el.closest('.bb-pw'):null;
+      if(pw&&!pw.classList.contains('used')){
+        e.preventDefault();e.stopPropagation();
+        tid=t.identifier;
+        startDrag(parseInt(pw.dataset.idx||'0'),t.clientX,t.clientY);
+        break;
+      }
     }
   },{passive:false,capture:true});
-  window.addEventListener('touchmove',function(e){
-    if(activeTouchId===null||!bbDrag)return;
-    for(var i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===activeTouchId){e.preventDefault();moveDrag(e.changedTouches[i].clientX,e.changedTouches[i].clientY);return;}}
+
+  // ── Touch: tap canvas to place selected piece ──
+  cv.addEventListener('touchstart',function(e){
+    if(tid!==null)return;
+    var p=bbPieces[bbSel];if(!p||p.used)return;
+    var t=e.changedTouches[0];
+    e.preventDefault();
+    tid=t.identifier;
+    startDrag(bbSel,t.clientX,t.clientY);
   },{passive:false});
-  window.addEventListener('touchend',function(e){
-    if(activeTouchId===null||!bbDrag)return;
-    for(var i=0;i<e.changedTouches.length;i++){if(e.changedTouches[i].identifier===activeTouchId){endDrag(e.changedTouches[i].clientX,e.changedTouches[i].clientY);activeTouchId=null;return;}}
-  },{passive:false});
-  window.addEventListener('touchcancel',function(){if(activeTouchId===null)return;bbRemoveGhost();bbDrag=null;bbDragCell={r:-1,c:-1};bbDrawGrid(-1,-1);activeTouchId=null;},{passive:false});
-  tray.addEventListener('mousedown',function(e){var pw=e.target.closest('.bb-pw');if(!pw||pw.classList.contains('used'))return;e.preventDefault();startDrag(parseInt(pw.dataset.idx||'0'),e.clientX,e.clientY);});
+
+  _bbH.mv=function(e){
+    if(tid===null||!bbDrag)return;
+    for(var i=0;i<e.changedTouches.length;i++){
+      var t=e.changedTouches[i];
+      if(t.identifier===tid){e.preventDefault();moveDrag(t.clientX,t.clientY);return;}
+    }
+  };
+  _bbH.en=function(e){
+    if(tid===null)return;
+    for(var i=0;i<e.changedTouches.length;i++){
+      var t=e.changedTouches[i];
+      if(t.identifier===tid){endDrag(t.clientX,t.clientY);return;}
+    }
+  };
+  _bbH.ca=cancel;
+  window.addEventListener('touchmove',_bbH.mv,{passive:false});
+  window.addEventListener('touchend',_bbH.en,false);
+  window.addEventListener('touchcancel',_bbH.ca,false);
+
+  // ── Mouse ──
+  tray.addEventListener('mousedown',function(e){
+    var pw=e.target.closest('.bb-pw');
+    if(!pw||pw.classList.contains('used'))return;
+    e.preventDefault();startDrag(parseInt(pw.dataset.idx||'0'),e.clientX,e.clientY);
+  });
   window.addEventListener('mousemove',function(e){if(bbDrag)moveDrag(e.clientX,e.clientY);});
   window.addEventListener('mouseup',function(e){if(bbDrag)endDrag(e.clientX,e.clientY);});
-  cv.addEventListener('mousemove',function(e){if(bbDrag)return;var p=bbPieces[bbSel];if(!p||p.used)return;var cell=cellAt(e.clientX,e.clientY);bbDrawGrid(cell.r,cell.c);});
+  cv.addEventListener('mousemove',function(e){
+    if(bbDrag)return;
+    var p=bbPieces[bbSel];if(!p||p.used)return;
+    var cell=cellAt(e.clientX,e.clientY);bbDrawGrid(cell.r,cell.c);
+  });
   cv.addEventListener('mouseleave',function(){if(!bbDrag)bbDrawGrid(-1,-1);});
 }
 function bbTryPlace(piece,r,c){
@@ -1367,7 +1434,7 @@ function initZombie(){
   body.innerHTML='<div id="zWrap"><canvas id="zCanvas"></canvas><div id="boomerFog"></div>'
     +'<div id="zBanner" class="z-banner"><div class="z-banner-title" id="zBT"></div><div class="z-banner-sub" id="zBS"></div></div>'
     +'<div id="zKeyBanner" class="z-key-banner"></div>'
-    +'<div id="zExitWrap"><button id="zExitBtn" onclick="closeGame()"><span>✕</span></button></div>'
+    +'<button id="zExitBtn" onclick="closeGame()"><span>✕ Salir</span></button>'
     +'</div>';
   showZIntro();
 }
@@ -1444,12 +1511,31 @@ function loadMap(mi){
     if(cands.length){var ki=cands[Math.floor(Math.random()*cands.length)];pickups.push({x:ki.x,y:ki.y,type:'key',taken:false});}
   }
   if(mi===1){
-    var fuelCands=[];
-    map.forEach(function(row,r){row.forEach(function(ch3,c){if(ch3==='.')fuelCands.push({x:c*ZTL+ZTL/2,y:r*ZTL+ZTL/2});});});
-    for(var fi=0;fi<5;fi++){
-      if(!fuelCands.length)break;var fi2=Math.floor(Math.random()*fuelCands.length);
-      var fp=fuelCands.splice(fi2,1)[0];pickups.push({x:fp.x,y:fp.y,type:'fuel',taken:false});
-      fuelCands=fuelCands.filter(function(fc){return Math.hypot(fc.x-fp.x,fc.y-fp.y)>ZTL*8;});
+    var fAll=[];
+    map.forEach(function(rw,r){rw.forEach(function(ch3,c){
+      if(ch3!=='.')return;
+      var ok=[[0,1],[0,-1],[1,0],[-1,0]].some(function(d){
+        var nr=r+d[0],nc=c+d[1];
+        return nr>=0&&nr<rows&&nc>=0&&nc<cols&&(map[nr][nc]==='.'||map[nr][nc]==='_');
+      });
+      if(ok)fAll.push({x:c*ZTL+ZTL/2,y:r*ZTL+ZTL/2});
+    });});
+    // shuffle
+    for(var si=fAll.length-1;si>0;si--){var sj=Math.floor(Math.random()*(si+1));var st=fAll[si];fAll[si]=fAll[sj];fAll[sj]=st;}
+    // pick spread
+    var fPlaced=[];
+    for(var fi=0;fi<fAll.length&&fPlaced.length<5;fi++){
+      var fp=fAll[fi];
+      if(!fPlaced.some(function(q){return Math.hypot(q.x-fp.x,q.y-fp.y)<ZTL*5;})){
+        fPlaced.push(fp);pickups.push({x:fp.x,y:fp.y,type:'fuel',taken:false});
+      }
+    }
+    // guarantee 5 regardless of spread
+    for(var gi2=0;gi2<fAll.length&&fPlaced.length<5;gi2++){
+      var fp2=fAll[gi2];
+      if(!fPlaced.some(function(q){return q.x===fp2.x&&q.y===fp2.y;})){
+        fPlaced.push(fp2);pickups.push({x:fp2.x,y:fp2.y,type:'fuel',taken:false});
+      }
     }
   }
   var depositPos=null;
@@ -1629,7 +1715,27 @@ function zUpdate(){
     });
   });
   if(zG.mapIdx===1&&zG.mapData.depositPos){var dep=zG.mapData.depositPos;zG.players.forEach(function(p){if(!p.alive||!p.carryingFuel)return;if(Math.hypot(p.x-dep.x,p.y-dep.y)<ZTL*2){p.carryingFuel=false;zG.fuelCollected++;mkParticles(dep.x,dep.y,10,'#60c060',6);toast('⛽ Bidón depositado! '+zG.fuelCollected+'/'+zG.fuelNeeded,2000);if(zG.fuelCollected>=zG.fuelNeeded){zG.cpUnlocked=true;zBanner('⛽ ¡Combustible completo!','¡El checkpoint está desbloqueado! 🔓',4000);}}});}
-  if(!zG.cpOverlay){zG.checkpoints.forEach(function(cp){if(cp.reached)return;zG.players.forEach(function(p){if(!p.alive)return;if(Math.hypot(p.x-cp.x,p.y-cp.y)<ZTL*2.2){if(!zG.cpUnlocked){if(!cp.hintShown){cp.hintShown=true;zShowKeyBanner(zG.mapIdx===0?'🗝️ Necesitas la llave para entrar':'⛽ Necesitas '+zG.fuelNeeded+' bidones primero');}return;}var allIn=zG.players.filter(function(p2){return p2.alive;}).every(function(p2){return Math.hypot(p2.x-cp.x,p2.y-cp.y)<ZTL*3;});if(!allIn){if(!cp.hintShown2){cp.hintShown2=true;zShowKeyBanner('¡Ambos jugadores deben estar aquí!');}return;}if(zG.mapIdx===0)p.hasKey=false;cp.reached=true;if(!zG.checkDone){zG.checkDone=true;completeTask('zb',0);toast('¡Checkpoint! +5 fotos 🗺️',3000);}showCPOverlay(cp);}});});}
+  if(!zG.cpOverlay){zG.checkpoints.forEach(function(cp){if(cp.reached)return;
+    zG.players.forEach(function(p){
+      if(!p.alive||Math.hypot(p.x-cp.x,p.y-cp.y)>=ZTL*2.2)return;
+      if(!zG.cpUnlocked){
+        if(zG.mapIdx===0){
+          // map1: key-holder must touch the door
+          if(p.hasKey){zG.cpUnlocked=true;zBanner('🗝️ ¡Puerta abierta!','Entren los dos ahora 🏠',3000);}
+          else{if(!cp.hintShown){cp.hintShown=true;zShowKeyBanner('🗝️ El jugador con la llave debe acercarse');}}
+        } else {
+          if(!cp.hintShown){cp.hintShown=true;zShowKeyBanner('⛽ Necesitas '+zG.fuelNeeded+' bidones primero');}
+        }
+        return;
+      }
+      var allIn=zG.players.filter(function(p2){return p2.alive;}).every(function(p2){return Math.hypot(p2.x-cp.x,p2.y-cp.y)<ZTL*3;});
+      if(!allIn){if(!cp.hintShown2){cp.hintShown2=true;zShowKeyBanner('¡Ambos jugadores deben estar aquí!');}return;}
+      zG.players.forEach(function(pl){pl.hasKey=false;});
+      cp.reached=true;
+      if(!zG.checkDone){zG.checkDone=true;completeTask('zb',0);toast('¡Checkpoint! +5 fotos 🗺️',3000);}
+      showCPOverlay(cp);
+    });
+  });}
   if(zG.mapIdx===2&&zG.btnPos&&!zG.btnPos.pressed){zG.players.forEach(function(p){if(!p.alive)return;if(Math.hypot(p.x-zG.btnPos.x,p.y-zG.btnPos.y)<ZTL*1.8){zG.btnPos.pressed=true;zG.megaWaveActive=true;zG.megaWaveTimer=60*120;var pool3=[];zG.mapData.map.forEach(function(row,r){row.forEach(function(ch,c){if(ch==='.'&&zG.players.every(function(p2){return Math.hypot(p2.x-c*ZTL-ZTL/2,p2.y-r*ZTL-ZTL/2)>250;}))pool3.push({x:c*ZTL+ZTL/2,y:r*ZTL+ZTL/2});});});for(var wi=0;wi<30;wi++){if(!pool3.length)break;var sp4=pool3[Math.floor(Math.random()*pool3.length)];var zt=['walker','runner','tank','spitter','boomer'][Math.floor(Math.random()*5)];var cfg4=Z_TYPES[zt];zG.zombies.push(Object.assign({},cfg4,{x:sp4.x,y:sp4.y,type:zt,angle:0,cd:0,spitCd:0,alive:true,spd:cfg4.spd*(0.9+Math.random()*0.3)}));}zBanner('🚨 ¡ALARMA ACTIVADA!','¡2 minutos de mega-oleada! ¡Aguanten! 💀',5000);}});}
   if(zG.mapIdx===2&&zG.heliUnlocked&&!zG.escapeDone&&zG.mapData.heliPos){var hp=zG.mapData.heliPos;var bothNear=zG.players.filter(function(p){return p.alive;}).every(function(p){return Math.hypot(p.x-hp.x,p.y-hp.y)<ZTL*2.8;});if(bothNear&&zG.players.filter(function(p){return p.alive;}).length===2){zG.escapeDone=true;zG.gameWon=true;completeTask('zb',1);toast('¡Escaparon juntos! 🚁 +5 fotos',4000);zBanner('¡ESCAPARON!','¡El helicóptero los llevó a salvo! 🚁💕',6000);setTimeout(function(){if(zG){zG.gameOver=true;showZOver();}},6500);}}
   var aliveP2=zG.players.filter(function(p){return p.alive;});
